@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use App\Models\Media;
 use App\Models\Order;
+use App\Models\OrderProduct;
 use App\Models\Post;
 use App\Models\Product;
 use App\Models\ProductCategory;
@@ -12,7 +13,9 @@ use App\Models\Seller;
 use App\Models\SellerCategory;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Validator;
+use function GuzzleHttp\Promise\all;
 
 class SellerController extends Controller
 {
@@ -179,7 +182,20 @@ class SellerController extends Controller
     public function getOrders(Request $request, int $id)
     {
         $seller = Seller::where('id', $id)->firstOrfail();
+        $allOrders = Order::where('sellerID', $seller->id)->get();
+        $returnValue = [];
+        $i = 0;
+        foreach ($allOrders as $order) {
+            $productsIDS = OrderProduct::where('orderID', $order->id)->get('productID')->toArray();
+            $allProducts = [];
+            foreach ($productsIDS as $productID) {
+                $allProducts[] = Product::where('id', $productID)->first();
+            }
+            $returnValue[$i]['order'] = $order;
+            $returnValue[$i]['products'] = $allProducts;
+            $i++;
+        }
 
-        return Order::where('sellerID', $seller->id)->get();
+        return $returnValue;
     }
 }
