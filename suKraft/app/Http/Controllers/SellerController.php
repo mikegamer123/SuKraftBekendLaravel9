@@ -197,8 +197,9 @@ class SellerController extends Controller
             $returnValue[$i]['order'] = $order->toArray();
             $returnValue[$i]['products'] = $allProducts;
             $returnValue[$i]['order'] = array_merge($returnValue[$i]['order'], ["products" => $returnValue[$i]['products']]);
+            $result [$i] = array_merge($returnValue[$i]['order'], ["products" => $returnValue[$i]['products']]);
             $i++;
         }
-        return $returnValue;
+        return $result;
     }
 }
