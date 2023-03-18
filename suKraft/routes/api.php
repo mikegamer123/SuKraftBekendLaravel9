@@ -121,6 +121,8 @@ Route::prefix('likes')->group(function () {
 Route::prefix('products')->group(function () {
     //api route for returning all products or by ID
     Route::get('/get/{id?}', [App\Http\Controllers\ProductController::class, 'get']);
+    //api route for returning all products or by ID
+    Route::get('/getBySeller/{id?}', [App\Http\Controllers\ProductController::class, 'getBySeller']);
     //api route for updating products by ID
     Route::post('/put/{id}', [App\Http\Controllers\ProductController::class, 'put']);
 
