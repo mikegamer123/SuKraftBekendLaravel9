@@ -65,20 +65,20 @@ class ProductController extends Controller
 //        if(!$this->declareAdmin($request)){
 //            return "Unathorized";
 //        }
-            $models = Product::where('sellerID',$id)->get();
-            $allModels = [];
-            $i = 0;
-            foreach ($models as $model) {
-                $allModels[$i]["seller"] = Seller::where("id", $model->sellerID)->first();
-                $allModels[$i]["image"] = Media::where("id", $model->mediaID)->first();
-                $conn = ProductCategory::where('productID', $model->id)->get();
-                foreach ($conn as $connModel) {
-                    $allModels[$i]["categories"][] = Category::where("id", $connModel->categoryID)->first();
-                }
-                $allModels[$i]["product"] = $model;
-                $i++;
+        $models = Product::where('sellerID', $id)->get();
+        $allModels = [];
+        $i = 0;
+        foreach ($models as $model) {
+            $allModels[$i]["seller"] = Seller::where("id", $model->sellerID)->first();
+            $allModels[$i]["image"] = Media::where("id", $model->mediaID)->first();
+            $conn = ProductCategory::where('productID', $model->id)->get();
+            foreach ($conn as $connModel) {
+                $allModels[$i]["categories"][] = Category::where("id", $connModel->categoryID)->first();
             }
-            return $allModels;
+            $allModels[$i]["product"] = $model;
+            $i++;
+        }
+        return $allModels;
     }
 
     public function put($id, Request $request)
@@ -153,27 +153,27 @@ class ProductController extends Controller
 //        if(!$this->declareAdmin($request)){
 //            return "Unathorized";
 //        }
-        $models = Product::where('name', 'LIKE', '%'.$request->querySearch.'%')->get();
-        if (empty($models)){
-            abort(404);
+        $models = Product::where('name', 'LIKE', '%' . $request->querySearch . '%')->get();
+        if (empty($models)) {
+            return [];
         }
         $categoryIDS = "";
-        foreach ($models as $model){
-            $categoryIDS = ProductCategory::where('productID',$model->id)->get();
+        foreach ($models as $model) {
+            $categoryIDS = ProductCategory::where('productID', $model->id)->get();
         }
-        if (empty($categoryIDS)){
-            abort(404);
+        if (empty($categoryIDS)) {
+            return [];
         }
         $returnValue = [];
-        if ($request->categoryID){
-            foreach ($categoryIDS as $categoryID){
-                if ($categoryID->categoryID == $request->categoryID){
+        if ($request->categoryID) {
+            foreach ($categoryIDS as $categoryID) {
+                if ($categoryID->categoryID == $request->categoryID) {
                     $returnValue ['products'] = $models;
                 }
             }
             return $returnValue;
         }
-        $returnValue['products']=$models;
+        $returnValue['products'] = $models;
         return $returnValue;
     }
 

@@ -170,7 +170,7 @@ class SellerController extends Controller
 //        }
         $models = Seller::where('name', 'LIKE', '%' . $request->querySearch . '%')->get();
         if (empty($models)) {
-            abort(404);
+            return [];
         }
         return $models;
     }
