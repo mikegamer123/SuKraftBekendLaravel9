@@ -159,12 +159,15 @@ class ProductController extends Controller
             $categoryIDS = ProductCategory::where('productID',$model->id)->get();
         }
         $returnValue = [];
-        foreach ($categoryIDS as $categoryID){
-            if ($categoryID->categoryID == $request->categoryID){
-                $returnValue ['products'] = $models;
+        if ($request->categoryID){
+            foreach ($categoryIDS as $categoryID){
+                if ($categoryID->categoryID == $request->categoryID){
+                    $returnValue ['products'] = $models;
+                }
             }
+            return $returnValue;
         }
-
+        $returnValue['products']=$models;
         return $returnValue;
     }
 
