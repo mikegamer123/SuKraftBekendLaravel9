@@ -154,8 +154,18 @@ class ProductController extends Controller
 //            return "Unathorized";
 //        }
         $models = Product::where('name', 'LIKE', '%'.$request->querySearch.'%')->get();
+        $categoryIDS = "";
+        foreach ($models as $model){
+            $categoryIDS = ProductCategory::where('productID',$model->id)->get();
+        }
+        $returnValue = [];
+        foreach ($categoryIDS as $categoryID){
+            if ($categoryID->categoryID == $request->categoryID){
+                $returnValue ['products'] = $models;
+            }
+        }
 
-        return $models;
+        return $returnValue;
     }
 
     public function add(Request $request)
