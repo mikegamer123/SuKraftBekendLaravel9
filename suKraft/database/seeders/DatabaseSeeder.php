@@ -12,6 +12,7 @@ use App\Models\Messages;
 use App\Models\Order;
 use App\Models\OrderProduct;
 use App\Models\Post;
+use App\Models\PostProduct;
 use App\Models\Product;
 use App\Models\ProductCategory;
 use App\Models\Review;
@@ -45,5 +46,6 @@ class DatabaseSeeder extends Seeder
         Category::factory(3)->create();
         SellerCategory::factory(3)->create();
         ProductCategory::factory(3)->create();
+        PostProduct::factory(3)->create();
     }
 }

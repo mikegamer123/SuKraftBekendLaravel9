@@ -114,7 +114,7 @@ class OrderController extends Controller
 //        if(!$this->declareAdmin($request)){
 //            return "Unathorized";
 //        }
-        $order = Order::where('id', $id)->first();
+        $order = Order::where('id', $id)->firstOrfail();
         $modelDel = OrderProduct::where('orderID', $order->id)->get();
         foreach ($modelDel as $delete) {
             $delete->delete();
