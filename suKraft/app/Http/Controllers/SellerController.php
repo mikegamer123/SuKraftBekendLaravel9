@@ -162,4 +162,14 @@ class SellerController extends Controller
 
         return $model;
     }
+
+    public function search(Request $request)
+    {
+//        if(!$this->declareAdmin($request)){
+//            return "Unathorized";
+//        }
+        $models = Seller::where('name', 'LIKE', '%'.$request->querySearch.'%')->get();
+
+        return $models;
+    }
 }

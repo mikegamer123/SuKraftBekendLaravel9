@@ -131,8 +131,7 @@ Route::prefix('products')->group(function () {
     Route::post('/create', [App\Http\Controllers\ProductController::class, 'add']);
     //api route for searching products
     Route::get('/search', [App\Http\Controllers\ProductController::class, 'search']);
-    //api route for searching sellers
-//    Route::get('/search', [App\Http\Controllers\SellerController::class, 'search']);
+
 
 });
 
@@ -174,6 +173,8 @@ Route::prefix('sellers')->group(function () {
 
     //api route for creating categories
     Route::post('/create', [App\Http\Controllers\SellerController::class, 'add']);
+    //api route for searching sellers
+    Route::get('/search', [App\Http\Controllers\SellerController::class, 'search']);
 });
 
 ////ORDER
