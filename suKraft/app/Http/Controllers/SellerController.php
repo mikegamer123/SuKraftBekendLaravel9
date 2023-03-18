@@ -187,17 +187,18 @@ class SellerController extends Controller
         $i = 0;
         foreach ($allOrders as $order) {
             $productsIDS = OrderProduct::where('orderID', $order->id)->get('productID')->toArray();
-            $count = OrderProduct::where('orderID', $order->id)->get('count')->toArray();
+            $count = OrderProduct::where('orderID', $order->id)->get('count');
             $allProducts = [];
-            foreach ($productsIDS as $productID) {
-                $allProducts[] = Product::where('id', $productID)->first();
+            foreach ($productsIDS as $key => $productID) {
+                $product = Product::where('id', $productID)->first();
+                $product['count'] = $count[$key]->count;
+                $allProducts[] = $product;
             }
-            $returnValue[$i]['order'] = $order;
+            $returnValue[$i]['order'] = $order->toArray();
             $returnValue[$i]['products'] = $allProducts;
-            $returnValue[$i]['products'] = array_merge($returnValue[$i]['products'], $count);
+            $returnValue[$i]['order'] = array_merge($returnValue[$i]['order'], ["products" => $returnValue[$i]['products']]);
             $i++;
         }
-
         return $returnValue;
     }
 }
