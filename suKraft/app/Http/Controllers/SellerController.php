@@ -168,8 +168,8 @@ class SellerController extends Controller
 //        if(!$this->declareAdmin($request)){
 //            return "Unathorized";
 //        }
-        $models = Seller::where('name', 'LIKE', '%'.$request->querySearch.'%')->get();
-        if (empty($models)){
+        $models = Seller::where('name', 'LIKE', '%' . $request->querySearch . '%')->get();
+        if (empty($models)) {
             abort(404);
         }
         return $models;
