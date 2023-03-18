@@ -119,16 +119,18 @@ Route::prefix('likes')->group(function () {
 });
 ////PRODUCTS
 Route::prefix('products')->group(function () {
-    //api route for returning all categories or by ID
+    //api route for returning all products or by ID
     Route::get('/get/{id?}', [App\Http\Controllers\ProductController::class, 'get']);
-    //api route for updating categories by ID
+    //api route for updating products by ID
     Route::post('/put/{id}', [App\Http\Controllers\ProductController::class, 'put']);
 
-    //api route for deleting categories by ID
+    //api route for deleting products by ID
     Route::delete('/delete/{id}', [App\Http\Controllers\ProductController::class, 'delete']);
 
-    //api route for creating categories
+    //api route for creating products
     Route::post('/create', [App\Http\Controllers\ProductController::class, 'add']);
+    //api route for searching products
+    Route::get('/search', [App\Http\Controllers\ProductController::class, 'search']);
 });
 
 ////MESSAGES

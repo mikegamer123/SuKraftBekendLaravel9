@@ -127,6 +127,16 @@ class ProductController extends Controller
         return "Deleted Product by id of " . $id;
     }
 
+    public function search(Request $request)
+    {
+//        if(!$this->declareAdmin($request)){
+//            return "Unathorized";
+//        }
+        $models = Product::where('name', 'LIKE', '%'.$request->querySearch.'%')->get();
+
+        return $models;
+    }
+
     public function add(Request $request)
     {
 //        if(!$this->declareAdmin($request)){
