@@ -60,6 +60,27 @@ class ProductController extends Controller
         }
     }
 
+    public function getBySeller(Request $request, $id)
+    {
+//        if(!$this->declareAdmin($request)){
+//            return "Unathorized";
+//        }
+            $models = Product::where('sellerID',$id)->get();
+            $allModels = [];
+            $i = 0;
+            foreach ($models as $model) {
+                $allModels[$i]["seller"] = Seller::where("id", $model->sellerID)->first();
+                $allModels[$i]["image"] = Media::where("id", $model->mediaID)->first();
+                $conn = ProductCategory::where('productID', $model->id)->get();
+                foreach ($conn as $connModel) {
+                    $allModels[$i]["categories"][] = Category::where("id", $connModel->categoryID)->first();
+                }
+                $allModels[$i]["product"] = $model;
+                $i++;
+            }
+            return $allModels;
+    }
+
     public function put($id, Request $request)
     {
 //        if(!$this->declareAdmin($request)){
