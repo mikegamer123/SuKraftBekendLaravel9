@@ -169,7 +169,9 @@ class SellerController extends Controller
 //            return "Unathorized";
 //        }
         $models = Seller::where('name', 'LIKE', '%'.$request->querySearch.'%')->get();
-
+        if (empty($models)){
+            abort(404);
+        }
         return $models;
     }
 }
