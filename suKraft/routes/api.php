@@ -177,6 +177,8 @@ Route::prefix('sellers')->group(function () {
     Route::post('/create', [App\Http\Controllers\SellerController::class, 'add']);
     //api route for searching sellers
     Route::get('/search', [App\Http\Controllers\SellerController::class, 'search']);
+    //api route for getting orders by seller
+    Route::get('/orders/{id}', [\App\Http\Controllers\SellerController::class, 'getOrders']);
 });
 
 ////ORDER
