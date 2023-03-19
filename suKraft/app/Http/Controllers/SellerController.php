@@ -206,6 +206,7 @@ class SellerController extends Controller
         $allOrders = Order::where('sellerID', $seller->id)->get();
         $returnValue = [];
         $i = 0;
+        $result = [];
         foreach ($allOrders as $order) {
             $productsIDS = OrderProduct::where('orderID', $order->id)->get('productID')->toArray();
             $count = OrderProduct::where('orderID', $order->id)->get('count');
