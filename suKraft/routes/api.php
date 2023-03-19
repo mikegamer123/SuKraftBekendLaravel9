@@ -45,11 +45,16 @@ Route::prefix('users')->group(function () {
 Route::prefix('media')->group(function () {
     //api route for creating images for various types
     Route::post('/{type}/{id}', [App\Http\Controllers\MediaController::class, 'mediaCreate']);
+
+    //api route for creating images for various types
+    Route::get('get/{id}', [App\Http\Controllers\MediaController::class, 'get']);
 });
 ////CATEGORIES
 Route::prefix('categories')->group(function () {
     //api route for returning all categories or by ID
     Route::get('/get/{id?}', [App\Http\Controllers\CategoryController::class, 'get']);
+    //api route for returning all categories or by ID
+    Route::get('/getByType/{id?}', [App\Http\Controllers\CategoryController::class, 'getByType']);
     //api route for updating categories by ID
     Route::post('/put/{id}', [App\Http\Controllers\CategoryController::class, 'put']);
 

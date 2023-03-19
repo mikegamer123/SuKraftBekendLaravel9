@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Media;
+use App\Models\Seller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -35,6 +36,7 @@ class UserController extends Controller
             $i = 0;
             foreach ($models as $model){
                 $allModels[$i]["image"] = Media::where("id",$model->mediaId)->first();
+                $allModels[$i]["seller"] = Seller::where("userID",$model->id)->first();
                 $allModels[$i]["user"] = $model;
                 $i++;
             }
@@ -42,6 +44,7 @@ class UserController extends Controller
         }
         else{
             $user["user"] = User::where('id', $id)->firstOrFail();
+            $user["seller"] = Seller::where('userID', $user["user"]->id)->firstOrFail();
             $user["image"] = Media::where('id',$user["user"]->mediaId)->first();
             return $user;
         }

@@ -173,10 +173,31 @@ class SellerController extends Controller
 //            return "Unathorized";
 //        }
         $models = Seller::where('name', 'LIKE', '%' . $request->querySearch . '%')->get();
+
         if (empty($models)) {
             return [];
         }
-        return $models;
+        $categoryIDS = [];
+        foreach ($models as $model) {
+            $categoryIDS[] = SellerCategory::where('sellerID', $model->id)->first();
+        }
+
+        if (empty($categoryIDS)) {
+            return [];
+        }
+        $returnValue = [];
+        if ($request->categoryID) {
+            foreach ($categoryIDS as $categoryID) {
+                if(isset($categoryID))
+                    if ($categoryID->categoryID == $request->categoryID) {
+                        $returnValue['sellers'][] = Seller::where('id', $categoryID->sellerID)->first();
+                    }
+            }
+        }
+        else{
+            $returnValue['sellers'] = $models;
+        }
+        return $returnValue;
     }
 
     public function getOrders(Request $request, int $id)

@@ -35,6 +35,21 @@ class CategoryController extends Controller
         }
     }
 
+    public function getByType(Request $request, $id = 0){
+//        if(!$this->declareAdmin($request)){
+//            return "Unathorized";
+//        }
+
+        if($id == 0){
+            $model = Category::where('type',$request->type)->get();
+            return $model;
+        }
+        else{
+            $model = Category::where('type',$request->type)->where('id', $id)->firstOrFail();
+            return $model;
+        }
+    }
+
     public function put($id,Request $request){
 //        if(!$this->declareAdmin($request)){
 //            return "Unathorized";

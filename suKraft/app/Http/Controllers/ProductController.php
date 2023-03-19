@@ -154,26 +154,30 @@ class ProductController extends Controller
 //            return "Unathorized";
 //        }
         $models = Product::where('name', 'LIKE', '%' . $request->querySearch . '%')->get();
+
         if (empty($models)) {
             return [];
         }
-        $categoryIDS = "";
+        $categoryIDS = [];
         foreach ($models as $model) {
-            $categoryIDS = ProductCategory::where('productID', $model->id)->get();
+            $categoryIDS[] = ProductCategory::where('productID', $model->id)->first();
         }
+
         if (empty($categoryIDS)) {
             return [];
         }
         $returnValue = [];
         if ($request->categoryID) {
             foreach ($categoryIDS as $categoryID) {
+                if(isset($categoryID))
                 if ($categoryID->categoryID == $request->categoryID) {
-                    $returnValue ['products'] = $models;
+                    $returnValue['products'][] = Product::where('id', $categoryID->productID)->first();
                 }
             }
-            return $returnValue;
         }
-        $returnValue['products'] = $models;
+        else{
+            $returnValue['products'] = $models;
+        }
         return $returnValue;
     }
 
@@ -188,7 +192,6 @@ class ProductController extends Controller
             'description' => 'required',
             'name' => 'required',
             'price' => 'required|numeric',
-            'salePrice' => 'required|numeric',
             'isAvailable' => 'required',
         ]);
 

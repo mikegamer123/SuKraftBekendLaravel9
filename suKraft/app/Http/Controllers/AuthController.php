@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Models\Image;
 use App\Models\Media;
+use App\Models\Seller;
 use App\Models\UserLogs;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -86,8 +87,10 @@ class AuthController extends Controller
             ->where('id', $user->id)
             ->update(['api_token' => $token]);
 
+        $seller = Seller::where('userID',$user->id)->first();
+
         return response()
-            ->json(['message' => 'Hi ' . $user->firstName . ', welcome to home', 'access_token' => $token, 'user' => $user, 'image' => Media::where("id", $user->imageId)->first(), 'token_type' => 'Bearer',]);
+            ->json(['message' => 'Hi ' . $user->firstName . ', welcome to home', 'access_token' => $token, 'user' => $user, 'seller' => $seller, 'image' => Media::where("id", $user->imageId)->first(), 'token_type' => 'Bearer',]);
     }
 
     // method for user logout and delete token

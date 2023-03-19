@@ -14,13 +14,19 @@ use Illuminate\Support\Facades\Storage;
 
 class MediaController extends Controller
 {
+
+    public function get(Request $request, $id){
+        $media = Media::where('id',$id)->firstOrFail();
+        return $media;
+    }
+
     public function mediaCreate(Request $request, $type, $id)
     {
         if ($request->hasFile('mediaUpload')) {
             $request->validate(['mediaUpload' => 'mimes:jpg,jpeg,png,mp4|max:20000'], ['mediaUpload.*mimes' => 'Dozvoljeni formati su: jpg, jpeg, png, mp4.', 'mediaUpload.*max' => 'Velicina fajla je prevelika, max je 20MB']);
             $path = Storage::disk('local')->put('/public', $request->file("mediaUpload"));
             $split_path = explode("/", $path);
-            $typeOfMedia = explode(".", $split_path[1]);
+            $typeOfMedia = explode(".", $split_path[1])[1];
 
             $image = Media::create([
                 'srcUrl' => "storage/" . $split_path[1],
