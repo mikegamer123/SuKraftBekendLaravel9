@@ -135,11 +135,13 @@ Route::prefix('messages')->group(function () {
 });
 ////REVIEWS
 Route::prefix('reviews')->group(function () {
-    //api route for returning all categories or a single category by ID
+    //api route for returning all reviews or a single category by ID
     Route::get('/get/{id?}', [App\Http\Controllers\ReviewController::class, 'get']);
-    //api route for updating a single category by ID
+    //api route for returning all reviews by product ID
+    Route::get('/getByProduct/{id}', [App\Http\Controllers\ReviewController::class, 'getByProductId']);
+    //api route for updating a single reviews by ID
     Route::post('/put/{id}', [App\Http\Controllers\ReviewController::class, 'put']);
-    //api route for deleting a single category by ID
+    //api route for deleting a single reviews by ID
     Route::delete('/delete/{id}', [App\Http\Controllers\ReviewController::class, 'delete']);
     //api route for creating categories
     Route::post('/create', [App\Http\Controllers\ReviewController::class, 'add']);
