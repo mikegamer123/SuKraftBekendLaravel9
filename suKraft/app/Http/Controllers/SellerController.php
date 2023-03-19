@@ -59,7 +59,7 @@ class SellerController extends Controller
             $model["posts"] = Post::where("id", $model["seller"]->sellerID)->get();
             $model["imageSeller"] = Media::where("id", $model["seller"]->mediaID)->first();
             $model["user"] = User::where("id", $model["seller"]->userID)->first();
-            $model["imageUser"] = Media::where("id", $model["user"]->mediaID)->first();
+            $model["imageUser"] = Media::where("id", $model["user"]->mediaId)->first();
             $conn = SellerCategory::where('sellerID', $model["seller"]->id)->get();
             foreach ($conn as $connModel) {
                 $model["categories"][] = Category::where("id", $connModel->categoryID)->first();
