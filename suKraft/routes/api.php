@@ -159,6 +159,8 @@ Route::prefix('messages')->group(function () {
 Route::prefix('reviews')->group(function () {
     //api route for returning all categories or by ID
     Route::get('/get/{id?}', [App\Http\Controllers\ReviewController::class, 'get']);
+    //api route for returning all categories or by ID
+    Route::get('/getByProduct/{id?}', [App\Http\Controllers\ReviewController::class, 'getByProductId']);
     //api route for updating categories by ID
     Route::post('/put/{id}', [App\Http\Controllers\ReviewController::class, 'put']);
 

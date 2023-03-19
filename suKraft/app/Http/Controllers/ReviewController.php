@@ -47,6 +47,23 @@ class ReviewController extends Controller
         }
     }
 
+    public function getByProductId(Request $request, $id = 0)
+    {
+//        if(!$this->declareAdmin($request)){
+//            return "Unathorized";
+//        }
+
+        $models = Review::where('productID', $id)->get();
+        $allModels = [];
+        $i = 0;
+        foreach ($models as $model) {
+            $allModels[$i]["user"] = User::where("id", $model->userID)->first();
+            $allModels[$i]["review"] = $model;
+            $i++;
+        }
+        return $allModels;
+    }
+
     public function put($id, Request $request)
     {
 //        if(!$this->declareAdmin($request)){
